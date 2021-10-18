@@ -1,4 +1,5 @@
 from flask import Flask, render_template, redirect, url_for
+from Mission_to_Mars_Challenge import hemisphere_image_urls
 from flask_pymongo import PyMongo
 import scraping
 
@@ -18,7 +19,10 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
    mars = mongo.db.mars.find_one()
+   
    return render_template("index.html", mars=mars)
+
+
 
 # the next function will set up our scraping route. This route will be the "button" of the web application
 # @app.route(“/scrape”) defines the route that Flask will be using. This route, “/scrape”, will run the
@@ -40,8 +44,13 @@ def scrape():
    # create a new document if one doesn't already exist, and new data will always be saved
    mars.update({}, mars_data, upsert=True)
    # step 4 : add a redirect after successfully scraping the data: return redirect('/', code=302).
-   # This will navigate our page back to / where we can see the updated content.
+   
    return redirect('/', code=302)
+
+
+
+
+
 
 # to tell Flask to run:
 if __name__ == "__main__":

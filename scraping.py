@@ -1,4 +1,5 @@
 # Import Splinter, BeautifulSoup, and Pandas
+from Mission_to_Mars_Challenge import hemisphere_image_urls
 from splinter import Browser
 from bs4 import BeautifulSoup as soup
 import pandas as pd
@@ -11,14 +12,16 @@ def scrape_all():
     browser = Browser('chrome', **executable_path, headless=True)
 
     news_title, news_paragraph = mars_news(browser)
-
+    
     # Run all scraping functions and store results in a dictionary
     data = {
         "news_title": news_title,
         "news_paragraph": news_paragraph,
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
-        "last_modified": dt.datetime.now()
+        "last_modified": dt.datetime.now(),
+        "hemispheres": hemisphere_image_urls
+
     }
 
     # Stop webdriver and return data
@@ -95,6 +98,17 @@ def mars_facts():
 
     # Convert dataframe into HTML format, add bootstrap
     return df.to_html(classes="table table-striped")
+
+
+    
+        # At the end of the function,
+    # return the scraped data as a list of dictionaries with the URL string and title of each hemisphere image.
+def hemispheres():
+    hemispheres = [{hemisphere_image_urls.img_url}, {hemisphere_image_urls.title}]
+    return hemispheres
+
+    
+    
 
 if __name__ == "__main__":
 
